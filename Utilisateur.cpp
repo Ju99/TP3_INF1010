@@ -1,3 +1,11 @@
+/****************************************************************************
+* Fichier: Utilisateur.cpp
+* Auteur : Aldric Lopez et Juliette Morin
+* Date :  12 févr. 2020
+* Mise a jour : 29 févr. 2020
+* Description : Implémentation de la classe Utilisateur
+* ***************************************************************************/
+
 #include "Utilisateur.h"
 
 //! Constructeur de la classe Utilisateur

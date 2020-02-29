@@ -1,3 +1,11 @@
+/****************************************************************************
+* Fichier: GestionnaireAuteurs.cpp
+* Auteur : Aldric Lopez et Juliette Morin
+* Date :  12 févr. 2020
+* Mise a jour : 29 févr. 2020
+* Description : Implémentation de la classe GestionnaireAuteurs
+* ***************************************************************************/
+
 #include "GestionnaireAuteurs.h"
 #include <fstream>
 #include <iomanip>
@@ -53,7 +61,7 @@ bool GestionnaireAuteurs::chargerDepuisFichier(const std::string& nomFichier)
 }
 
 //! Méthode qui retourne le nombre d'auteurs
-//! \return Le nombre d'auteurs
+//! \return		Le nombre d'auteurs
 std::size_t GestionnaireAuteurs::getNbAuteurs() const
 {
     return auteurs_.size();
@@ -73,8 +81,8 @@ bool GestionnaireAuteurs::operator+=(const Auteur& auteur)
 }
 
 //! opérateur qui affiche le film
-//! \param os Le stream dans lequel afficher
-//! \param gestionnaireAuteurs le gestionnaire que l'on veut afficher
+//! \param os						Le stream dans lequel afficher
+//! \param gestionnaireAuteurs		Le gestionnaire que l'on veut afficher
 std::ostream& operator<<(std::ostream& o, const GestionnaireAuteurs& gestionnaireAuteurs) 
 {
 	for (std::size_t i = 0; i < gestionnaireAuteurs.auteurs_.size(); i++)

@@ -1,14 +1,21 @@
+/****************************************************************************
+* Fichier: Librairie.cpp
+* Auteur : Aldric Lopez et Juliette Morin
+* Date :  12 févr. 2020
+* Mise a jour : 29 févr. 2020
+* Description : Implémentation de la classe Librairie
+* ***************************************************************************/
+
 #include "Librairie.h"
 
-
-// To do
+//! Constructeur de copie de la classe Librairie
 Librairie::Librairie(const Librairie& librairie)
 {
 	*this = librairie;
-		
 }
 
-// To do
+//! Operateur qui affecte une librairie à une autre
+//! /param Librairie	La librairie à affecter
 Librairie& Librairie::operator=(const Librairie& librairie)
 {
 	if (&librairie == this)
@@ -30,7 +37,9 @@ Librairie::~Librairie()
     medias_.clear();
 }
 
-// To do
+//! Méthode qui retourne un film comportant le même nom que celui envoyé en paramètre
+//! \param nomFilm Le nom du film à chercher
+//! \return        Un pointeur vers le film. Nullptr si le film n'existe pas
 Film* Librairie::chercherFilm(const std::string& nomFilm)
 {
 	Media* media = chercherMedia(nomFilm, Media::TypeMedia::Film);
@@ -39,7 +48,9 @@ Film* Librairie::chercherFilm(const std::string& nomFilm)
 	return dynamic_cast<Film*>(media);
 }
 
-// To do
+//! Méthode qui cherche une série comportant le même nom que celui envoyé en paramètre
+//! \param nomSerie		Le nom de la série à chercher
+//! \return				Un pointeur vers la série. Nullptr si la série n'existe pas
 Serie* Librairie::chercherSerie(const std::string& nomSerie)
 {
 	Media* media = chercherMedia(nomSerie, Media::TypeMedia::Serie);
@@ -48,7 +59,9 @@ Serie* Librairie::chercherSerie(const std::string& nomSerie)
 	return dynamic_cast<Serie*>(media);
 }
 
-// To do
+//! Méthode qui ajoute une saison comportant le même nom que celui envoyé en paramètre
+//! \param nomSerie		Le nom de la série à chercher
+//! \param saison		Pointeur unique d'une saison
 void Librairie::ajouterSaison(const std::string& nomSerie, std::unique_ptr<Saison> saison)
 {
 	size_t index = trouverIndexMedia(nomSerie);
@@ -57,7 +70,9 @@ void Librairie::ajouterSaison(const std::string& nomSerie, std::unique_ptr<Saiso
 		*dynamic_cast<Serie*>(medias_[index].get()) += move(saison);
 }
 
-// To do
+//! Méthode qui retire une saison comportant le même nom que celui envoyé en paramètre
+//! \param nomSerie		Le nom de la série à chercher
+//! \param numSaison	Le numéro de la saison
 void Librairie::retirerSaison(const std::string& nomSerie, unsigned int numSaison)
 {
 	size_t index = trouverIndexMedia(nomSerie);
@@ -66,7 +81,10 @@ void Librairie::retirerSaison(const std::string& nomSerie, unsigned int numSaiso
 		*dynamic_cast<Serie*>(medias_[index].get()) -= numSaison;
 }
 
-// To do
+//! Méthode qui ajoute un épisode comportant le même nom que celui envoyé en paramètre
+//! \param nomSerie		Le nom de la série à chercher
+//! \param numSaison	Le numéro de la saison
+//! \param episode		Pointeur unique d'un épisode
 void Librairie::ajouterEpisode(const std::string& nomSerie, unsigned int numSaison,
                                std::unique_ptr<Episode> episode)
 {
@@ -76,7 +94,10 @@ void Librairie::ajouterEpisode(const std::string& nomSerie, unsigned int numSais
 		dynamic_cast<Serie*>(medias_[index].get())->ajouterEpisode(numSaison, move(episode));
 }
 
-
+//! Méthode qui retire un épisode comportant le même nom que celui envoyé en paramètre
+//! \param nomSerie		Le nom de la série à chercher
+//! \param numSaison	Le numéro de la saison
+//! \param numEpisode	Le numéro d'épisode
 void Librairie::retirerEpisode(const std::string& nomSerie, unsigned int numSaison,
                                unsigned int numEpisode)
 {
@@ -144,13 +165,16 @@ bool Librairie::chargerRestrictionsDepuisFichiers(const std::string& nomFichier)
     return false;
 }
 
-// To do
+//! Méthode qui retourne le nombre de medias
+//! \return		Le nombre de medias
 size_t Librairie::getNbMedias() const
 {
 	return medias_.size();
 }
 
-// To do
+//! Opérateur qui affiche tous les attributs de la librairie
+//! \param os			Le stream dans lequel afficher
+//! \param saison		La librairie à afficher
 std::ostream& operator<<(std::ostream& os, const Librairie& librairie)
 {
 	for (const auto& media : librairie.medias_)
@@ -166,7 +190,9 @@ std::ostream& operator<<(std::ostream& os, const Librairie& librairie)
 	return os;
 }
 
-// To do
+//! Méthode qui retourne l'index du média recherché
+//! \param nomMedia		Le nom du média à chercher
+//! \return				L'index du média recherché s'il existe, sinon MEDIA_INEXSISTANT
 size_t Librairie::trouverIndexMedia(const std::string& nomMedia) const
 {
 	for (size_t i = 0; i < medias_.size(); i++)
@@ -178,7 +204,9 @@ size_t Librairie::trouverIndexMedia(const std::string& nomMedia) const
 	return MEDIA_INEXSISTANT;
 }
 
-// To do
+//! Opérateur qui ajoute un média
+//! \param media			Un pointeur de média à ajouter
+//! \return					La librairie avec le média ajouté
 Librairie& Librairie::operator+=(std::unique_ptr<Media> media)
 {
 	if (media == nullptr)
@@ -189,7 +217,9 @@ Librairie& Librairie::operator+=(std::unique_ptr<Media> media)
 	return *this;
 }
 
-// To do
+//! Opérateur qui retire un média
+//! \param nomMedia			Le nom du média à retirer
+//! \return					La librairie avec le média retiré
 Librairie& Librairie::operator-=(const std::string& nomMedia)
 {
 	size_t indexFilm = trouverIndexMedia(nomMedia);
@@ -200,13 +230,14 @@ Librairie& Librairie::operator-=(const std::string& nomMedia)
 
 	medias_[indexFilm] = std::move(medias_[medias_.size() - 1]);
 	medias_.pop_back();
-	/*const Auteur* auteur = medias_[indexFilm]->getAuteur();
-	auteur->setNbMedias(auteur->getNbMedias() - 1);*/
 
 	return *this;
 }
 
-// To do
+//! Méthode qui retourne l'index du média recherché
+//! \param nomMedia		Le nom du média à chercher
+//! \param typeMedia	Le type de média à chercher
+//! \return				L'index du média recherché s'il existe, sinon nullptr
 Media* Librairie::chercherMedia(const std::string& nomMedia, Media::TypeMedia typeMedia)
 {
 	size_t index = trouverIndexMedia(nomMedia);
@@ -221,7 +252,9 @@ Media* Librairie::chercherMedia(const std::string& nomMedia, Media::TypeMedia ty
 	return nullptr;
 }
 
-// To do
+//! Méthode qui lit une ligne
+//! \param ligne		Le string comportant les restrictions
+//! \return				Un Bool représentant si la lecture est un succès ou non
 bool Librairie::lireLigneRestrictions(const std::string& ligne)
 {
 	std::istringstream stream(ligne);
@@ -246,7 +279,10 @@ bool Librairie::lireLigneRestrictions(const std::string& ligne)
 	return false;
 }
 
-// To do
+//! Méthode qui lit une ligne
+//! \param ligne				Le string comportant les attributs d'un média
+//! \param gestionnaireAuteurs	Le gestionnaire des auteurs qui associe le média à un auteur
+//! \return						Un Bool représentant si la lecture est un succès ou non
 bool Librairie::lireLigneMedia(const std::string& ligne, GestionnaireAuteurs& gestionnaireAuteurs)
 {
     lireLigneMediaFunction fonctionLireligne[] = {&Librairie::lireLigneFilm,
@@ -262,13 +298,17 @@ bool Librairie::lireLigneMedia(const std::string& ligne, GestionnaireAuteurs& ge
     return false;
 }
 
-// To do
+//! Méthode qui retourne un vecteur de pointeur unique de medias
+//! \return		Le vecteur de medias
 const std::vector<std::unique_ptr<Media>>& Librairie::getMedias() const
 {
 	return medias_;
 }
 
-// To do
+//! Méthode qui lit une ligne
+//! \param ligne				Le string comportant les attributs d'un épisode
+//! \param gestionnaireAuteurs	Le gestionnaire des auteurs qui associe l'épisode à un auteur
+//! \return						Un Bool représentant si la lecture est un succès ou non
 bool Librairie::lireLigneEpisode(std::istream& is, GestionnaireAuteurs&)
 {
 	int numero;
@@ -286,7 +326,10 @@ bool Librairie::lireLigneEpisode(std::istream& is, GestionnaireAuteurs&)
 	return false;
 }
 
-// To do
+//! Méthode qui lit une ligne
+//! \param ligne				Le string comportant les attributs d'une saison
+//! \param gestionnaireAuteurs	Le gestionnaire des auteurs qui associe une saison à un auteur
+//! \return						Un Bool représentant si la lecture est un succès ou non
 bool Librairie::lireLigneSaison(std::istream& is, GestionnaireAuteurs&)
 {
 	int numeroSaison;
@@ -302,7 +345,10 @@ bool Librairie::lireLigneSaison(std::istream& is, GestionnaireAuteurs&)
 	return false;
 }
 
-// To do
+//! Méthode qui lit une ligne
+//! \param ligne				Le string comportant les attributs d'une série
+//! \param gestionnaireAuteurs	Le gestionnaire des auteurs qui associe une série à un auteur
+//! \return						Un Bool représentant si la lecture est un succès ou non
 bool Librairie::lireLigneSerie(std::istream& is, GestionnaireAuteurs& gestionnaireAuteurs)
 {
 	std::string nomAuteur;
@@ -322,7 +368,10 @@ bool Librairie::lireLigneSerie(std::istream& is, GestionnaireAuteurs& gestionnai
 	return false;
 }
 
-// To do
+//! Méthode qui lit une ligne
+//! \param ligne				Le string comportant les attributs d'un film
+//! \param gestionnaireAuteurs	Le gestionnaire des auteurs qui associe le film à un auteur
+//! \return						Un Bool représentant si la lecture est un succès ou non
 bool Librairie::lireLigneFilm(std::istream& is, GestionnaireAuteurs& gestionnaireAuteurs)
 {
 	std::string nomAuteur;
@@ -342,7 +391,8 @@ bool Librairie::lireLigneFilm(std::istream& is, GestionnaireAuteurs& gestionnair
 	return false;
 }
 
-// To do
+//! Méthode qui retourne le nombre de films de la librairie
+//! \return		Le nombre de films
 size_t Librairie::getNbFilms() const
 {
 	unsigned nbFilms = 0;
@@ -355,7 +405,8 @@ size_t Librairie::getNbFilms() const
 	return nbFilms;
 }
 
-// To do
+//! Méthode qui retourne le nombre de série de la librairie
+//! \return		Le nombre de série
 size_t Librairie::getNbSeries() const
 {
 	unsigned nbSeries = 0;
@@ -368,7 +419,8 @@ size_t Librairie::getNbSeries() const
 	return nbSeries;
 }
 
-// To do
+//! Méthode qui retourne le nombre de saisons de la librairie
+//! \return		Le nombre de saisons
 size_t Librairie::getNbSaisons(const std::string& nomSerie) const
 {
 	size_t index = trouverIndexMedia(nomSerie);
@@ -378,7 +430,8 @@ size_t Librairie::getNbSaisons(const std::string& nomSerie) const
 		return 0;
 }
 
-// To do
+//! Méthode qui retourne le nombre d'épisode de la librairie
+//! \return		Le nombre d'épisode
 size_t Librairie::getNbEpisodes(const std::string& nomSerie, const unsigned int numSaison) const
 {
 	size_t index = trouverIndexMedia(nomSerie);

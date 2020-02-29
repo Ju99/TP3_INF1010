@@ -1,3 +1,11 @@
+/****************************************************************************
+* Fichier: Media.cpp
+* Auteur : Aldric Lopez et Juliette Morin
+* Date :  12 févr. 2020
+* Mise a jour : 29 févr. 2020
+* Description : Implémentation de la classe Media
+* ***************************************************************************/
+
 #include "Media.h"
 
 namespace
@@ -38,7 +46,14 @@ namespace
     }
 } // namespace
 
-// To do
+//! Constructeur par défault de la classe Media
+//! \param nom                  Nom du média
+//! \param anneeDeSortie        Année de sortie du média
+//! \param genre                Le genre du média
+//! \param pays                 Le pays d'origine du média
+//! \param estRestreintParAge   Bool qui représente si le média est interdit aux moins de 16 ans
+//! \param auteur               Pointeur vers l'auteur du média
+//! \param typeMedia            Le type de média
 Media::Media(Auteur* auteur, Media::TypeMedia typeMedia) :
 	nom_("Unkwown"),
 	anneeDeSortie_(0),
@@ -50,7 +65,14 @@ Media::Media(Auteur* auteur, Media::TypeMedia typeMedia) :
 {
 }
 
-// To do
+//! Constructeur par paramètre de la classe Media
+//! \param nom                  Nom du média
+//! \param anneeDeSortie        Année de sortie du média
+//! \param genre                Le genre du média
+//! \param pays                 Le pays d'origine du média
+//! \param estRestreintParAge   Bool qui représente si le média est interdit aux moins de 16 ans
+//! \param auteur               Pointeur vers l'auteur du média
+//! \param typeMedia            Le type de média
 Media::Media(const std::string& nom, unsigned int anneeDeSortie, Genre genre, Pays pays,
              bool estRestreintParAge, Auteur* auteur, Media::TypeMedia typeMedia) :
 	nom_(nom),
@@ -63,7 +85,7 @@ Media::Media(const std::string& nom, unsigned int anneeDeSortie, Genre genre, Pa
 {
 }
 
-// To do
+//! Constructeur par copie de la classe Media
 Media::Media(const Media& media) :
 	Media (media.nom_, media.anneeDeSortie_, media.genre_, media.pays_, media.estRestreintParAge_,
 		media.auteur_, media.typeMedia_)
@@ -80,7 +102,7 @@ Media::~Media()
 }
 
 //! Méthode qui ajoute un pays à liste des pays restreints du media
-//! \param pays Pays à ajouter à la liste
+//! \param pays		Pays à ajouter à la liste
 void Media::ajouterPaysRestreint(Pays pays)
 {
 	paysRestreints_.push_back(pays);
@@ -93,8 +115,8 @@ void Media::supprimerPaysRestreints()
 }
 
 //! Méthode qui retourne si un pays est dans la liste des pays restreints du media
-//! \param pays Le pays à chercher dans la liste des pays restreints
-//! \return     Un bool représentant si le pays se trouve dans la liste des pays restreints
+//! \param pays		Le pays à chercher dans la liste des pays restreints
+//! \return			Un bool représentant si le pays se trouve dans la liste des pays restreints
 bool Media::estRestreintDansPays(Pays pays) const
 {
 	for (std::size_t i = 0; i < paysRestreints_.size(); i++)
@@ -107,16 +129,15 @@ bool Media::estRestreintDansPays(Pays pays) const
 	return false;
 }
 
-// Méthode qui retourne si le media est restreint aux moins de 16 ans
-// \return Un bool représentant si le film est restreint aux moins de 16 ans
+//! Méthode qui retourne si le media est restreint aux moins de 16 ans
+//! \return		Un bool représentant si le film est restreint aux moins de 16 ans
 bool Media::estRestreintParAge() const
 {
 	return estRestreintParAge_;
 }
 
-//! opérateur qui affiche le film
-//! \param os Le stream dans lequel afficher
-//! \param Film le film que l'on veut afficher
+//! Méthode qui affiche le film
+//! \param os		Le stream dans lequel afficher
 std::ostream& Media::afficher(std::ostream& os) const
 {
 	os << nom_ << "\n\tDate de sortie: " << anneeDeSortie_
@@ -133,40 +154,43 @@ std::ostream& Media::afficher(std::ostream& os) const
 	return os;
     }
 
-// to do
+//! Opérateur qui affiche tous les attributs du média
+//! \param os			Le stream dans lequel afficher
+//! \param saison		La saison à afficher
 std::ostream& operator<<(std::ostream& os, const Media& media)
 {
 	return media.afficher(os);
 }
 
-// Méthode qui retourne le genre du media
-// \return Le genre du media
+//! Méthode qui retourne le genre du media
+//! \return		Le genre du media
 Media::Genre Media::getGenre() const
 {
 	return genre_;
 }
 
-// Méthode qui retourne le nom du media
-// \return Le nom du media
+//! Méthode qui retourne le nom du media
+//! \return		Le nom du media
 const std::string& Media::getNom() const
 {
 	return nom_;
 }
 
-// Méthode qui retourne l'auteur
-// \return L'auteur du media
+//! Méthode qui retourne l'auteur
+//! \return		L'auteur du media
 const Auteur* Media::getAuteur() const
 {
 	return auteur_;
 }
 
-// To do
+//! Méthode qui retourne le type de média
+//! \return		Le type de média
 Media::TypeMedia Media::getTypeMedia() const
 {
 	return typeMedia_;
 }
 
-// To do
+//! Méthode qui initialise tous les attributs de la classe Media
 std::istream& Media::lire(std::istream& is)
 {
 	int genreValeurEnum;
@@ -182,13 +206,16 @@ std::istream& Media::lire(std::istream& is)
 	return is;
 }
 
-// To do
+//! Opérateur qui initialise tous les attributs d'un média
+//! \param is			Le stream où se trouve les attributs
+//! \param episode		Le média que l'on désire initialiser
 std::istream& operator>>(std::istream& is, Media& media)
 {
 	return media.lire(is);
 }
 
-// To do
+//! Méthode qui retourne une copie de média
+//! \return				Un pointeur unique du média
 std::unique_ptr<Media> Media::clone() const
 {
 	return std::make_unique<Media>(*this);
